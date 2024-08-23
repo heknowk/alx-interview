@@ -1,18 +1,25 @@
 #!/usr/bin/python3
-"""
-Chamge comes from within
-"""
+""" Making changes """
 
 
 def makeChange(coins, total):
-    """
-    Given a pile of cons of different values,
-    determine the fewest number of cons needed to meet a given amount total.
+    """ Generate changes needed to reach total
+
+    Args:
+        coins ([List]): [List of Coins available]
+        total ([int]): [total amount needed]
     """
     if total <= 0:
         return 0
-    dp = [0] + [float("inf")] * (total)
-    for coin in coins:
-        for i in range(coin, total + 1):
-            dp[i] = min(dp[i], dp[i - coin] + 1)
-    return dp[-1] if dp[-1] != float("inf") else -1
+    check = 0
+    temp = 0
+    coins.sort(reverse=True)
+    for i in coins:
+        while check < total:
+            check += i
+            temp += 1
+        if check == total:
+            return temp
+        check -= i
+        temp -= 1
+    return -1
